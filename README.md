@@ -1,9 +1,11 @@
 ## About this project
-*nodejs-launcher* is a CLI tool written in Rust aimed to simplify launching NodeJS scripts with specified environment variables through command line (bash, powershell, etc.). 
+*nodejs-launcher* is a CLI tool written in Rust which enables launch configurations for NodeJS applications.
 
 ## Why?
-I've used VScode for most of my development tasks for years and I loved using debug configurations to put my ENV variables in .vscode/launch.json and reuse them between debug sessions. 
-After moving my workflow primarily to neoVIM I miss the debug configurations and laucnhing my NodeJS script becomes tedious. 
-For now this tool will replicate the role of vscode *launch.json* with easy to use CLI commands.
+Common IDEs (VScode, Webstorm etc.) have built-in debuggers which extensively take advantage of launch configurations. This espesially comes handy when there's a lot of environment variables to pass to a NodeJS script. 
 
+In case you don't use an IDE or prefer a lightweight alternative (like a terminal editor, i.e. `vim`, `emacs`, `nano`) having launch configurations can save a lot of time. This tool solves exactly this problem. The launch configuration is similar to VScode's built-in debugger configuration (`launch.json`)
 
+## CLI commands
+
+TODO
