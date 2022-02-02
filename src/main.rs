@@ -1,56 +1,56 @@
-use structopt::StructOpt;
-
-use crate::launcher::launch_node;
-mod parser;
+mod config;
 mod launcher;
 mod linux_handler;
-mod config;
+mod parser;
+
+use crate::{config::LaunchConfig, launcher::launch_node};
+use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
-#[structopt(name = "example", about = "An example of StructOpt usage.")]
+#[structopt(
+    name = "NodeJS Launcher",
+    about = "CLI tool which provides launch configurations for nodejs applications"
+)]
 struct Opt {
-    // short and long flags (-i, --init) will be deduced from the field's name
     #[structopt(short, long)]
     init: bool,
 
-    //// Set speed
-    // we don't want to name it "speed", need to look smart
-    // #[structopt(short = "v", long = "velocity", default_value = "42")]
-    //speed: f64,
+    #[structopt(long)]
+    new: Option<String>,
 
     #[structopt(short, long)]
     name: Option<String>,
-
-    //// Output file, stdout if not present
-    //#[structopt(parse(from_os_str))]
-    //output: Option<PathBuf>,
-
-    //// Where to write the output: to `stdout` or `file`
-    //#[structopt(short)]
-    //out_type: String,
-
-    //// File name: only required when `out-type` is set to `file`
-    //#[structopt(name = "FILE", required_if("out-type", "file"))]
-    //file_name: Option<String>,
 }
 
 fn main() {
     let opts = Opt::from_args();
 
-    println!("parsed with lib {:?}", opts);
+    if cfg!(target_os = "windows") {
+        println!("Sorry, Windows OS is not yet supported");
+        std::process::exit(0)
+    }
 
-    if cfg!(target_os = "linux") {
-        println!("Linux!");
+    if opts.init == true {
+        println!("init");
+        let mut config: LaunchConfig = LaunchConfig::create();
+        linux_handler::verify_configuration(&mut config);
+        std::process::exit(0)
+    }
 
-        if opts.init == true {
-            linux_handler::verify_configuration();
-        }
+    let mut config = LaunchConfig::load();
 
-        let launch_config = parser::JsonParser::parse("./.node_launcher/launch.json").unwrap();
-        println!("parsed config: {:?}", launch_config);
-        launch_node(&launch_config);
+    if let Some(new_configuration) = opts.new {
+        linux_handler::verify_configuration(&mut config);
+        linux_handler::add_configuration(&mut config, &new_configuration);
+        std::process::exit(0)
+    }
 
+    if let Some(name) = opts.name {
+        let config = config.find_configuration(&name);
+        println!("executing {}", name);
+        launch_node(&config.unwrap());
     } else {
-        println!("Only Linux is supported by far, sorry.");
+        println!("configuration name not specified, launching first configuration");
+        launch_node(&config.configurations[0]);
     }
 }
