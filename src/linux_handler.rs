@@ -1,45 +1,42 @@
-use std::{error::Error, path::PathBuf, collections::HashMap, fs::{self, OpenOptions}, process::Command};
-use std::io::Write;
-use crate::config::Config;
-use crate::parser::LauncherConfig;
+use std::{error::Error, path::PathBuf, process::Command, fmt::format};
 
-pub fn verify_configuration() {
-    let launcher_path = Config::create(None, None);
-    let exists = launcher_path.is_exists();
+use crate::config::LaunchConfig;
+pub fn verify_configuration(config: &mut LaunchConfig) {
+    let exists = config.is_exists();
     println!("init specified, exists {}", exists);
 
     if !exists {
-        let _path = create_config_dir();
-        let _editor = open_editor(&launcher_path.get_config_path());
-        println!("created launch.json");
+        let _path = config.create_config_dir();
+        let _file = config.generate_config_file();
+        let _editor = open_editor(&config.file_path, 1);
+        println!("created launch.json. see folder .node_launcher");
     } else {
         println!("config dir exists");
     }
-
-    std::process::exit(0)
 }
 
-fn open_editor(file_path: &PathBuf) -> Result<(), Box<dyn Error>> {
-    let mut editor = Command::new("nano").arg(&file_path).spawn().expect("Failed to laucnh editor");
+pub fn open_editor(file_path: &PathBuf, lines: usize) -> Result<(), Box<dyn Error>> {
+    let nano_line_operator = "+";
+    let lines_offset = lines - 4; // 4 lines because of default line count of empty configuration
+    let arg = format!("{}{}", nano_line_operator, lines_offset);
+
+    println!("2222 {}", arg);
+
+    let mut editor = Command::new("nano")
+        .arg(arg)
+        .arg(&file_path)
+        .spawn()
+        .expect("Failed to launch nano editor, please make sure it's intalled");
     let _editor_e_code = editor.wait().expect("failed to exit editor process");
 
     Ok(())
 }
 
-fn create_config_dir() -> Result<PathBuf, Box<dyn Error>> {
-    let launcher_path = Config::create(None, None);
+pub fn add_configuration(config: &mut LaunchConfig, name: &str) -> Result<(), Box<dyn Error>> {
+    config.add_configuration(name);
+    let lines = config.save_config_file();
+    open_editor(&config.file_path, lines.unwrap());
 
-    let init_config = LauncherConfig {
-        name: String::from("Launch Configuration"),
-        script: String::from("./script.js"),
-        env: HashMap::new()
-    };
-
-    fs::create_dir_all(&launcher_path.json_folder)?;
-    let mut file = OpenOptions::new().create_new(true).write(true).append(true).open(&launcher_path.get_config_path()).unwrap();
-    let json_string = serde_json::to_string_pretty(&init_config);
-    let _file = file.write_all(json_string.unwrap().as_bytes());
-
-    Ok(launcher_path.get_config_path())
+    Ok(())
 }
 
