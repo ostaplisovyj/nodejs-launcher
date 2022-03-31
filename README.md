@@ -12,11 +12,13 @@ In case you don't use an IDE or prefer a lightweight alternative (like a termina
 
 Commands & options:
 
-`init, i` - inits the config directory (by default `.node_launcher`) with config file `launch.json`
+`init` - inits the config directory (by default `.node_launcher`) with config file `launch.json`
 
-`run --name <name>, run -n <name>` - executes configuration by name specified in `launch.json` config file
+`run` - promts user to select and execute one of available configurations specified in `launch.json` config file.
 
-`list, ls` - outputs all available launch configurations in current workspace
+`edit` - opens terminal editor (nano) for changing availbale configurations
+
+`add` - adds new configuration and opens terminal editor (nano) for configuring
 
 ## Launch configuration file *launch.json*
 
@@ -30,5 +32,5 @@ The following attributes are supported:
 
 * `env` - a dictionary of key-value pairs which are passed as environment variables to executable nodejs script and can be accessed by referencing `process.env` in your script file.
 
-* `version` - the version of configuration template (for now, `0.1` version is set default and doesn't need to be changed)
+* `script` - path to the script file which should execute with all environment variables specified in `env` JSON attribute,
 
