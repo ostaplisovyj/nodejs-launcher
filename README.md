@@ -1,22 +1,26 @@
 ## About this project
-*nodejs-launcher* is a CLI tool written in Rust which enables launch configurations for NodeJS applications.
+*nodejs-launcher* is a CLI tool written in Rust which enables launch configurations seamlessly for NodeJS applications. This is still a work-in-progress project therefore it's not recommended to use in production environments. Suggestions for improvements are welcomed (please create the issue ticket).
 
 ## Use cases
 Common IDEs (VScode, Webstorm etc.) typically offer built-in debuggers which extensively take advantage of launch configurations. This espesially comes handy when there's a lot of environment variables to pass to a NodeJS script. 
 
-In case you don't use an IDE or prefer a lightweight alternative (like a terminal editor, i.e. `vim`, `emacs`, `nano`) this tool is for you. It enables launch configuration presets for your nodejs apps by letting you specify environment variables, arguments etc. The nodejs-launcher configuration has similar structure to VScode's built-in configuration (`launch.json`).
+When IDE is not an option or lightweight alternative is preferred (a terminal editor, i.e. `vim`, `emacs`, `nano`), this simple CLI tool enables configuration presets for launching your nodejs apps and scripts with specified environment variables, arguments etc. 
+
+The nodejs-launcher configuration has similar structure to VScode's built-in launch config (`launch.json`).
 
 ## CLI usage
 
-`nodelauncher [command] [options]`
+`nodelauncher [command]`
 
 Commands & options:
 
-`init, i` - inits the config directory (by default `.node_launcher`) with config file `launch.json`
+`init` - inits the config directory (by default `.node_launcher`) with config file `launch.json`
 
-`run --name <name>, run -n <name>` - executes configuration by name specified in `launch.json` config file
+`run` - prompts user to select and execute one of available configurations specified in `launch.json` config file.
 
-`list, ls` - outputs all available launch configurations in current workspace
+`edit` - opens terminal editor (nano) for changing available configurations
+
+`add` - adds new configuration and opens terminal editor (nano) for configuring
 
 ## Launch configuration file *launch.json*
 
@@ -30,5 +34,5 @@ The following attributes are supported:
 
 * `env` - a dictionary of key-value pairs which are passed as environment variables to executable nodejs script and can be accessed by referencing `process.env` in your script file.
 
-* `version` - the version of configuration template (for now, `0.1` version is set default and doesn't need to be changed)
+* `script` - path to the script file which should execute with all environment variables specified in `env` JSON attribute,
 
