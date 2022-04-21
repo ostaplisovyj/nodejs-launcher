@@ -65,12 +65,12 @@ impl LaunchConfig {
 
         let path = &self.file_path;
         let _file = File::create(&path)?;
-        &self.save_config_file()?;
+        let _ = &self.save_config_file()?;
 
         Ok(())
     }
 
-    pub fn save_config_file(&mut self) -> Result<(usize), Box<dyn Error>> {
+    pub fn save_config_file(&mut self) -> Result<usize, Box<dyn Error>> {
         let mut json_file = OpenOptions::new()
             .write(true)
             .append(false)

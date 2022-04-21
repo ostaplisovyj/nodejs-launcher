@@ -2,12 +2,9 @@ mod config;
 mod launcher;
 mod linux_handler;
 mod parser;
-
 use crate::{config::LaunchConfig, launcher::launch_node};
 use structopt::StructOpt;
-
-use console::Term;
-use dialoguer::{theme::ColorfulTheme, Select};
+use dialoguer::{Select};
 
 #[derive(Debug, StructOpt)]
 #[structopt(
@@ -15,12 +12,16 @@ use dialoguer::{theme::ColorfulTheme, Select};
     about = "CLI tool which provides launch configurations for nodejs applications"
 )]
 enum Opt {
+    /// inits the .launch.json file which will be used to store configurations
     Init {},
 
+    /// opens a prompt to specify the launch configuration 
     Run {},
 
+    /// opens the command line editor (nano) to edit launch configurations
     Edit {},
 
+    /// adds new launch configuration
     Add {}
 }
 
@@ -77,10 +78,10 @@ fn handle_run_configuration() {
 
 fn handle_edit_configuration() {
     let config = LaunchConfig::load();
-    linux_handler::open_editor(&config.file_path, 1);
+    linux_handler::open_editor(&config.file_path, 4).expect("failed to open nano");
 }
 
 fn handle_add_configuration() {
     let mut config = LaunchConfig::load();
-    linux_handler::add_configuration(&mut config, "New Configuration");
+    linux_handler::add_configuration(&mut config, "New Configuration").expect("failed to add configuration");
 }

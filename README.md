@@ -8,6 +8,10 @@ When IDE is not an option or lightweight alternative is preferred (a terminal ed
 
 The nodejs-launcher configuration has similar structure to VScode's built-in launch config (`launch.json`).
 
+## Requirements
+
+Make sure you have `nano` editor available. This constraint will be changed in the future.
+
 ## CLI usage
 
 `nodelauncher [command]`

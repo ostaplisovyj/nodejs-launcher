@@ -1,4 +1,4 @@
-use std::{error::Error, path::PathBuf, process::Command, fmt::format};
+use std::{error::Error, path::PathBuf, process::Command};
 
 use crate::config::LaunchConfig;
 pub fn verify_configuration(config: &mut LaunchConfig) {
@@ -35,7 +35,7 @@ pub fn open_editor(file_path: &PathBuf, lines: usize) -> Result<(), Box<dyn Erro
 pub fn add_configuration(config: &mut LaunchConfig, name: &str) -> Result<(), Box<dyn Error>> {
     config.add_configuration(name);
     let lines = config.save_config_file();
-    open_editor(&config.file_path, lines.unwrap());
+    open_editor(&config.file_path, lines.unwrap()).expect("failed opening nano editor");
 
     Ok(())
 }

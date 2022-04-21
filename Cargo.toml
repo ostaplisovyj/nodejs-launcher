@@ -2,6 +2,13 @@
 name = "nodejs-launcher"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "A lightweight launch configurations CLI for NodeJS apps"
+readme = "README.md"
+homepage = "https://github.com/ostaplisovyj/nodejs-launcher"
+repository = "https://github.com/ostaplisovyj/nodejs-launcher"
+keywords = ["cli", "debug", "nodejs"]
+categories = ["command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
