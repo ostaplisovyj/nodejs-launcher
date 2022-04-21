@@ -20,8 +20,6 @@ pub fn open_editor(file_path: &PathBuf, lines: usize) -> Result<(), Box<dyn Erro
     let lines_offset = lines - 4; // 4 lines because of default line count of empty configuration
     let arg = format!("{}{}", nano_line_operator, lines_offset);
 
-    println!("2222 {}", arg);
-
     let mut editor = Command::new("nano")
         .arg(arg)
         .arg(&file_path)

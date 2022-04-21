@@ -12,6 +12,10 @@ The nodejs-launcher configuration has similar structure to VScode's built-in lau
 
 Make sure you have `nano` editor available. This constraint will be changed in the future.
 
+## Installation
+
+`cargo install nodejs-launcher`
+
 ## CLI usage
 
 `nodelauncher [command]`
