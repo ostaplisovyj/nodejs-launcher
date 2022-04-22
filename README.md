@@ -18,7 +18,7 @@ Make sure you have `nano` editor available. This constraint will be changed in t
 
 ## CLI usage
 
-`nodelauncher [command]`
+`nodejs-launcher [command]`
 
 Commands & options:
 
@@ -32,9 +32,7 @@ Commands & options:
 
 ## Launch configuration file *launch.json*
 
-Launch config is a way for declaring different aspects of running the nodejs application. For instance, you can specify environment variables and reuse different config presets between launches.
-
-## Launch configuration attributes
+Launch config is a way for declaring different aspects of running the nodejs application. For instance, you can specify environment variables and reuse different presets between launches.
 
 The following attributes are supported:
 
