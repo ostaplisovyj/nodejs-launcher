@@ -32,7 +32,7 @@ Commands & options:
 
 ## Launch configuration file *launch.json*
 
-Launch config is a way for declaring every aspect of running the nodejs application. For instance, you can specify attributes, environment variables, enable debug mode and reuse different presents between launches.
+Launch config is a way for declaring different aspects of running the nodejs application. For instance, you can specify environment variables and reuse different config presets between launches.
 
 ## Launch configuration attributes
 
